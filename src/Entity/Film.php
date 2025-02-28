@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\FilmsRepository;
+use App\Repository\FilmRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FilmsRepository::class)]
-class Films
+#[ORM\Entity(repositoryClass: FilmRepository::class)]
+class Film
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -26,7 +26,7 @@ class Films
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateSortie = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $genre = null;
 
     public function getId(): ?int

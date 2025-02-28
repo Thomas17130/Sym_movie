@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Films;
+use App\Entity\Film;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Films>
+ * @extends ServiceEntityRepository<Film>
  */
-class FilmsRepository extends ServiceEntityRepository
+class FilmRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Films::class);
+        parent::__construct($registry, Film::class);
     }
 
     //    /**
-    //     * @return Films[] Returns an array of Films objects
+    //     * @return Film[] Returns an array of Film objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class FilmsRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Films
+    //    public function findOneBySomeField($value): ?Film
     //    {
     //        return $this->createQueryBuilder('f')
     //            ->andWhere('f.exampleField = :val')

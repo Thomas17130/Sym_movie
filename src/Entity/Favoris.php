@@ -25,7 +25,7 @@ class Favoris
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'film')]
     private Collection $user;
 
-    #[ORM\ManyToOne(inversedBy: 'favoris')]
+    #[ORM\ManyToOne(targetEntity: Film::class,cascade: ['persist', 'remove'] )]
     private ?Film $film = null;
 
     public function __construct()

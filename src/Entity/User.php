@@ -31,7 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'user',cascade: ['persist', 'remove'])]
     private ?Favoris $favoris = null;
 
     public function getId(): ?int

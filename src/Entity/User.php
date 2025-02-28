@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\UtilisateurRepository;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,6 +32,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    /**
+     * @var Collection<int, Favoris>
+     */
+    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'user')]
+    private Collection $favoris;
+
+    public function __construct()
+    {
+        $this->film = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,5 +117,35 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Favoris>
+     */
+    public function getFilm(): Collection
+    {
+        return $this->film;
+    }
+
+    public function addFavoris(Favoris $film): static
+    {
+        if (!$this->film->contains($film)) {
+            $this->film->add($film);
+            $film->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoris(Favoris $film): static
+    {
+        if ($this->film->removeElement($film)) {
+            // set the owning side to null (unless already changed)
+            if ($film->getUser() === $this) {
+                $film->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

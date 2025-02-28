@@ -34,13 +34,17 @@ class Film
     /**
      * @var Collection<int, Favoris>
      */
-    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'user',cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'film')]
     private Collection $favoris;
 
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
     }
+
+
+
+
 
     public function getId(): ?int
     {
@@ -136,4 +140,7 @@ class Film
 
         return $this;
     }
+
+
+
 }

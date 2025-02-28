@@ -19,19 +19,13 @@ class Favoris
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateAjout = null;
 
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'film')]
-    private Collection $user;
+    #[ORM\ManyToOne(inversedBy: 'favoris')]
+    private ?User $user = null;
 
-    #[ORM\ManyToOne(targetEntity: Film::class,cascade: ['persist', 'remove'] )]
+    #[ORM\ManyToOne(inversedBy: 'favoris')]
     private ?Film $film = null;
 
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-    }
+
 
     public function getId(): ?int
     {
@@ -50,32 +44,14 @@ class Favoris
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUser(): Collection
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function addUser(User $user): static
+    public function setUser(?User $user): static
     {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
-            $user->setFavoris($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): static
-    {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getFavoris() === $this) {
-                $user->setFavoris(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }
@@ -91,4 +67,8 @@ class Favoris
 
         return $this;
     }
+
+
+
+
 }
